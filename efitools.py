@@ -2,10 +2,6 @@ import sys
 import os
 import time
 
-sys.path.append("c:\\Program Files (x86)\\JetBrains\\PyCharm 3.4.1\\pycharm-debug.egg")
-import pydevd
-pydevd.settrace('localhost', port=666, stdoutToServer=True, stderrToServer=True, suspend=False)
-
 import core
 import tools
 
@@ -58,6 +54,3 @@ for protocol in protocols:
     print "  Class         : %s" % str(protocol.__class__).split(".")[-1]
 
 print "Finished in %f seconds" % (time.time() - start)
-
-print "pydevd.stoptrace()"
-pydevd.stoptrace()
