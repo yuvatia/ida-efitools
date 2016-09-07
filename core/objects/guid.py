@@ -17,7 +17,7 @@ class GUID:
         else:
             raise ValueError()
         if self.__ptr.type != GUID_TYPENAME:
-            MakeUnknown(addr, 16, DOUNK_SIMPLE)
+            MakeUnknown(self.__ptr.addr, 16, DOUNK_SIMPLE)
             self.__ptr.type = Structure(GUID_TYPENAME).name
 
     @property
