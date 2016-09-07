@@ -2,8 +2,8 @@ import re
 import string
 from itertools import chain
 
-from idc import GetStrucIdByName, Til2Idb, DelStruc
-from idaapi import BADNODE
+from idc import GetStrucIdByName, Til2Idb, GetStrucIdx
+from idaapi import BADNODE, BADADDR
 
 PTR_SIZE_BITS = {
     "qword ptr": 64,
@@ -67,7 +67,7 @@ def is_structure_type(type):
 
     sid = Til2Idb(0, type)
     if sid != BADNODE:
-        if DelStruc(sid) == 0:
+        if GetStrucIdx(sid) == BADADDR:
             raise Exception('Bad structure type ID')
         return True
 
