@@ -5,7 +5,7 @@ from .structure import Structure
 
 from idc import MakeUnknown, DOUNK_SIMPLE
 
-GUID_TYPENAME = "GUID"
+GUID_TYPENAME = "EFI_GUID"
 
 class GUID:
 
