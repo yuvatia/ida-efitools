@@ -19,9 +19,12 @@ load_til(os.path.join(BASE_DIR, "behemoth.til"))
 
 start = time.time()
 
+# Turn any known GUIDs found into GUID structures
 print "Updating GUIDs..."
 tools.update_guids(os.path.join(BASE_DIR, "guids-db.ini"))
 
+# At one point had EFI_SYSTEM_TABLE structure created outside the argument in
+# an attempt to fix some error; not sure if that was actually needed.
 print "Performing initial structure updates starting at entry point..."
 tools.update_structs_from_regs(GetEntryOrdinal(0), rdx=Structure("EFI_SYSTEM_TABLE"))
 
