@@ -22,6 +22,8 @@ def filter_objects(objects_list, **attrs):
 
 
 def find_object(objects_list, **attrs):
+    if objects_list is None:
+        return None
     try:
         return next(filter_objects(objects_list, **attrs))
     except StopIteration:
