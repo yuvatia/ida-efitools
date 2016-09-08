@@ -121,7 +121,7 @@ def _guess_struct_field(item, op, struc):
 
     else:
         another_op = item[abs(op.n - 1)]
-        if another_op.type == o_reg:
+        if another_op and another_op.type == o_reg:
             member_size = another_op.reg.size // 8
         else:
             for ptr_str, bit_size in PTR_SIZE_BITS.items():

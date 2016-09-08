@@ -77,7 +77,7 @@ def _get_call_lea_args(function, call_instr, *regs):
 
     for item in function.items(stop=call_instr.ea):
         if item.operands_num > 0 and item[0].type == o_reg and \
-                item[0].reg.name_ex in reg_args:
+                item[0].reg and item[0].reg.name_ex in reg_args:
             if item.mnem == 'lea':
                 reg_args[item[0].reg.name_ex] = item[1]
             elif item.mnem not in ["cmp", "test"]:
