@@ -60,7 +60,7 @@ def _process_single_call(function, call_instr, guid_reg,
         interface = _prepare_interface(reg_args[interface_reg], struc.name,
                                        function, call_instr.ea)
 
-    protocol = find_object(project.protocols, guid=guid)
+    protocol = project.protocols.find(guid)
     if protocol is None:
        project.protocols.register(guid, struc, interface, call_instr.ea, protocol_type)
 

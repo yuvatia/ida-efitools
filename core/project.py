@@ -12,16 +12,22 @@ EXPORT_PROTOCOL = 1
 class ProtocolsList:
 
     def __init__(self):
-        self.__protocols = []
+        self.__protocols = {}
 
     def __iter__(self):
-        return iter(self.__protocols)
+        return iter(self.__protocols.values())
 
     def __len__(self):
-        return len(self.__protocols)
+        return len(self.__protocols.values())
+
+    def is_registered(self, guid):
+        return guid in self.__protocols
+
+    def find(self, guid):
+        return self.__protocols.get(guid)
 
     def register(self, guid, struc, interface_ptr, introduced_at, type):
-        if find_object(self.__protocols, guid=guid) is not None:
+        if self.is_registered(guid):
             raise Exception("Attempt to register alredy registered protocol: %s" % struc.name)
         if type == IMPORT_PROTOCOL:
             protocol_class = ImportProtocol
@@ -30,7 +36,7 @@ class ProtocolsList:
         else:
             raise ValueError('type')
         protocol = protocol_class(guid, struc, interface_ptr, introduced_at)
-        self.__protocols.append(protocol)
+        self.__protocols[guid] = protocol
         return protocol
 
 
