@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 load_til(os.path.join(BASE_DIR, "behemoth.til"))
 
-start = time.time()
+start_time = time.time()
 
 # Turn any known GUIDs found into GUID structures
 print "Updating GUIDs..."
@@ -56,4 +56,4 @@ for protocol in protocols:
     print "  Introduced at : 0x%X" % protocol.introduced_at
     print "  Class         : %s" % str(protocol.__class__).split(".")[-1]
 
-print "Finished in %f seconds" % (time.time() - start)
+print "Finished in %f seconds" % (time.time() - start_time)
