@@ -5,9 +5,9 @@ from .structure import Structure
 
 from idc import MakeUnknown, DOUNK_SIMPLE
 
-GUID_TYPENAME = "EFI_GUID"
-
 class GUID:
+
+    IDA_TYPE = "EFI_GUID"
 
     def __init__(self, addr=None, name=None, ptr=None):
         if addr is not None and name is not None:
@@ -16,9 +16,9 @@ class GUID:
             self.__ptr = ptr
         else:
             raise ValueError()
-        if self.__ptr.type != GUID_TYPENAME:
+        if self.__ptr.type != IDA_TYPE:
             MakeUnknown(self.__ptr.addr, 16, DOUNK_SIMPLE)
-            self.__ptr.type = Structure(GUID_TYPENAME).name
+            self.__ptr.type = Structure(IDA_TYPE).name
 
     @property
     def name(self):
