@@ -8,7 +8,7 @@ from core.utils import *
 
 
 def start_track(start, track, types_to_track, **kwargs):
-    skip_functions = []
+    skip_functions = set()
     for item, track in _do_track(start, track, types_to_track,
                                  skip_functions, **kwargs):
         yield item, track
@@ -27,7 +27,7 @@ def _do_track(start, track, types_to_track, skip_functions, **kwargs):
     if function in skip_functions:
         return
 
-    skip_functions.append(function)
+    skip_functions.add(function)
 
     rsp = [Register('rsp')]
     has_jumps = False

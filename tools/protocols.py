@@ -60,7 +60,7 @@ def _process_single_call(function, call_instr, guid_reg,
         interface = _prepare_interface(reg_args[interface_reg], struc.name,
                                        function, call_instr.ea)
 
-    protocol = find_object(project.protocols, guid=guid)
+    protocol = project.protocols.find(guid)
     if protocol is None:
        project.protocols.register(guid, struc, interface, call_instr.ea, protocol_type)
 
@@ -77,7 +77,7 @@ def _get_call_lea_args(function, call_instr, *regs):
 
     for item in function.items(stop=call_instr.ea):
         if item.operands_num > 0 and item[0].type == o_reg and \
-                item[0].reg.name_ex in reg_args:
+                item[0].reg and item[0].reg.name_ex in reg_args:
             if item.mnem == 'lea':
                 reg_args[item[0].reg.name_ex] = item[1]
             elif item.mnem not in ["cmp", "test"]:
@@ -89,7 +89,7 @@ def _get_call_lea_args(function, call_instr, *regs):
 def _prepare_guid(op, prefix):
     if op.type == o_mem:
         guid_ptr = Pointer(op.value)
-        if guid_ptr.type != "GUID":
+        if guid_ptr.type != GUID.IDA_TYPE:
             guid_data1 = str("%.8x" % Dword(op.value)).upper()
             guid_ptr.name = "%s_PROTOCOL_%s_GUID" % (prefix, guid_data1)
     else:

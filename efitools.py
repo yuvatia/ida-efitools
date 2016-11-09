@@ -2,10 +2,6 @@ import sys
 import os
 import time
 
-sys.path.append("c:\\Program Files (x86)\\JetBrains\\PyCharm 3.4.1\\pycharm-debug.egg")
-import pydevd
-pydevd.settrace('localhost', port=666, stdoutToServer=True, stderrToServer=True, suspend=False)
-
 import core
 import tools
 
@@ -21,11 +17,14 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 load_til(os.path.join(BASE_DIR, "behemoth.til"))
 
-start = time.time()
+start_time = time.time()
 
+# Turn any known GUIDs found into GUID structures
 print "Updating GUIDs..."
 tools.update_guids(os.path.join(BASE_DIR, "guids-db.ini"))
 
+# At one point had EFI_SYSTEM_TABLE structure created outside the argument in
+# an attempt to fix some error; not sure if that was actually needed.
 print "Performing initial structure updates starting at entry point..."
 tools.update_structs_from_regs(GetEntryOrdinal(0), rdx=Structure("EFI_SYSTEM_TABLE"))
 
@@ -57,7 +56,4 @@ for protocol in protocols:
     print "  Introduced at : 0x%X" % protocol.introduced_at
     print "  Class         : %s" % str(protocol.__class__).split(".")[-1]
 
-print "Finished in %f seconds" % (time.time() - start)
-
-print "pydevd.stoptrace()"
-pydevd.stoptrace()
+print "Finished in %f seconds" % (time.time() - start_time)

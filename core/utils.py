@@ -2,8 +2,8 @@ import re
 import string
 from itertools import chain
 
-from idc import GetStrucIdByName, Til2Idb, DelStruc
-from idaapi import BADNODE
+from idc import GetStrucIdByName, Til2Idb, GetStrucIdx
+from idaapi import BADNODE, BADADDR
 
 PTR_SIZE_BITS = {
     "qword ptr": 64,
@@ -22,6 +22,8 @@ def filter_objects(objects_list, **attrs):
 
 
 def find_object(objects_list, **attrs):
+    if objects_list is None:
+        return None
     try:
         return next(filter_objects(objects_list, **attrs))
     except StopIteration:
@@ -67,7 +69,7 @@ def is_structure_type(type):
 
     sid = Til2Idb(0, type)
     if sid != BADNODE:
-        if DelStruc(sid) == 0:
+        if GetStrucIdx(sid) == BADADDR:
             raise Exception('Bad structure type ID')
         return True
 

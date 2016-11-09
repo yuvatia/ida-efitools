@@ -7,15 +7,18 @@ from idc import MakeUnknown, DOUNK_SIMPLE
 
 class GUID:
 
+    IDA_TYPE = "EFI_GUID"
+
     def __init__(self, addr=None, name=None, ptr=None):
         if addr is not None and name is not None:
-            MakeUnknown(addr, 16, DOUNK_SIMPLE)
             self.__ptr = Pointer(addr, name)
         elif ptr is not None:
             self.__ptr = ptr
         else:
             raise ValueError()
-        self.__ptr.type = Structure("GUID").name
+        if self.__ptr.type != IDA_TYPE:
+            MakeUnknown(self.__ptr.addr, 16, DOUNK_SIMPLE)
+            self.__ptr.type = Structure(IDA_TYPE).name
 
     @property
     def name(self):
