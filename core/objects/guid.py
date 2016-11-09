@@ -16,9 +16,9 @@ class GUID:
             self.__ptr = ptr
         else:
             raise ValueError()
-        if self.__ptr.type != IDA_TYPE:
+        if self.__ptr.type != this.IDA_TYPE:
             MakeUnknown(self.__ptr.addr, 16, DOUNK_SIMPLE)
-            self.__ptr.type = Structure(IDA_TYPE).name
+            self.__ptr.type = Structure(this.IDA_TYPE).name
 
     @property
     def name(self):
