@@ -8,6 +8,7 @@ from core.utils import find_object, filter_objects
 IMPORT_PROTOCOL = 0
 EXPORT_PROTOCOL = 1
 
+__EA64__ = BADADDR == 0xFFFFFFFFFFFFFFFFL
 
 class ProtocolsList:
 
@@ -50,6 +51,13 @@ def load_til(path_to_til):
     if LoadTil(path_to_til) != 1:
        raise Exception("LoadTil('%s') has failed" % (path_to_til))
 
+    Til2Idb(-1, "UINTN") # sync UINTN to idb
+    
+    # need to be 'typedef UINT64 UINTN;' on 64-bit images
+    if (__EA64__):
+       for i in xrange(0, GetMaxLocalType()):
+          if GetLocalTypeName(i) == "UINTN":
+             SetLocalType(SetLocalType(i, "", 0), "typedef UINT64 UINTN;", 0)
 
 def load_project(path):
     pass
