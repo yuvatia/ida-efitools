@@ -1,4 +1,5 @@
 from idaapi import *
+import idautils
 from idautils import *
 from idc import *
 
@@ -81,7 +82,12 @@ def _update_structs_from_track(track):
                     isinstance(track[op.reg], Structure):
                 if track[op.reg].dummy:
                     _guess_struct_field(item, op, track[op.reg])
-                OpStroff(item.ea, op.n, track[op.reg].sid)
+
+                if IDA_SDK_VERSION >= 700:
+                    ins = idautils.DecodeInstruction(item.ea)
+                else:
+                    ins = item.ea
+                OpStroff(ins, op.n, track[op.reg].sid)
 
         for obj, state in track.items():
 
